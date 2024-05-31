@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+
+        .animated-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5); /* Initial position and scale */
+            animation: spin-zoom 3s linear forwards; /* Spin and zoom animation */
+            white-space: nowrap; /* Prevent text wrapping */
+            overflow: hidden; /* Hide overflow text */
+            color: #87CEEB; /* Blue color */
+        }
+
+        @keyframes spin-zoom {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5) rotate(0deg); /* Start position, scale, and rotation */
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.5) rotate(180deg); /* Midpoint position, scale, and rotation */
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1) rotate(360deg); /* End position, scale, and rotation */
+            }
+        }
+
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: right; /* Align items vertically */
+        }
+
+        .logo {
+            width: 80px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .header .dropdowns {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .dropdown {
+            position: relative;
+            margin-left: 10px;
+        }
+
+        .dropbtn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: right;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .calculator {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .calculator.active {
+            display: flex;
+        }
+
+        .calculator input, .calculator button, .calculator select {
+            margin: 10px 0;
+        }
+
+        .calendar-container {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            width: 600px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .calendar-container.active {
+            display: flex;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .week-names {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            margin-top: 10px;
+        }
+
+        .week-names .day {
+            text-align: center;
+            font-weight: bold;
+            padding: 1px;
+            background-color: #007bff;
+            color: white;
+        }
+
+        .date {
+            text-align: center;
+            padding: 5px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .date:hover {
+            background-color: #cfcfcf;
+        }
+
+        .today {
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+        }
+
+    </style>
+</head>
+<body>
+     <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://img.freepik.com/premium-photo/pr-logo-design-rr-logo-pr-logo-design_135595-72579.jpg" alt="PR Logo" class="logo">
+            <h1>CALCULATOR AND CALENDER HUB</h1>
+        </div>
+	 <div class="animated-text">
+        <h1>Welcome to My Website!</h1>
+	<h5>PLEASE SELECT THE CALENDER OR CALCULATOR FROM THE DROP DOWNS IN THE RIGHT TOP CORNER</h5>
+        <p>Enjoy your stay</p>
+    </div>
+        <div class="dropdowns">
+            <div class="dropdown" style="display: inline-block;">
+                <button class="dropbtn">Select Calculator</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="toggleCalculator('bmi-calculator')">BMI Calculator</a>
+                    <a href="#" onclick="toggleCalculator('loan-calculator')">Loan Calculator</a>
+                    <a href="#" onclick="toggleCalculator('compound-interest-calculator')">Compound Interest Calculator</a>
+                    <a href="#" onclick="toggleCalculator('retirement-calculator')">Retirement Calculator</a>
+                    <a href="#" onclick="toggleCalculator('calorie-calculator')">Calorie Calculator</a>
+                    <a href="#" onclick="toggleCalculator('mortgage-calculator')">Mortgage Calculator</a>
+                    <a href="#" onclick="toggleCalculator('tip-calculator')">Tip Calculator</a>
+                </div>
+            </div>
+            <div class="dropdown" style="display: inline-block;">
+                <button class="dropbtn">Select Calendar</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="toggleCalculator('date-calendar')">Date Calendar</a>
+                    <a href="#" onclick="toggleCalculator('age-calculator')">Age Calculator</a>
+                    <a href="#" onclick="toggleCalculator('date-calculator')">Date Calculator</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="bmi-calculator" class="calculator">
+            <h2>BMI Calculator</h2>
+            <input type="number" id="bmi-weight" placeholder="Weight (kg)">
+            <input type="number" id="bmi-height" placeholder="Height (m)">
+            <button onclick="calculateBMI()">Calculate BMI</button>
+            <p id="bmi-result"></p>
+        </div>
+
+        <div id="loan-calculator" class="calculator">
+            <h2>Loan Calculator</h2>
+            <input type="number" id="loan-principal" placeholder="Principal ($)">
+            <input type="number" id="loan-annual-rate" placeholder="Annual Interest Rate (%)">
+            <input type="number" id="loan-years" placeholder="Loan Term (years)">
+            <button onclick="calculateLoan()">Calculate Loan</button>
+            <p id="loan-result"></p>
+        </div>
+
+        <div id="compound-interest-calculator" class="calculator">
+            <h2>Compound Interest Calculator</h2>
+            <input type="number" id="ci-principal" placeholder="Principal ($)">
+            <input type="number" id="ci-rate" placeholder="Annual Interest Rate (%)">
+            <input type="number" id="ci-years" placeholder="Years">
+            <input type="number" id="ci-frequency" placeholder="Compounding Frequency (per year)">
+            <button onclick="calculateCompoundInterest()">Calculate</button>
+            <p id="ci-result"></p>
+        </div>
+
+        <div id="retirement-calculator" class="calculator">
+            <h2>Retirement Calculator</h2>
+            <input type="number" id="retirement-current-age" placeholder="Current Age">
+            <input type="number" id="retirement-retirement-age" placeholder="Retirement Age">
+            <input type="number" id="retirement-current-savings" placeholder="Current Savings ($)">
+            <input type="number" id="retirement-annual-contribution" placeholder="Annual Contribution ($)">
+            <input type="number" id="retirement-rate" placeholder="Annual Interest Rate (%)">
+            <button onclick="calculateRetirement()">Calculate</button>
+            <p id="retirement-result"></p>
+        </div>
+
+        <div id="calorie-calculator" class="calculator">
+            <h2>Calorie Calculator</h2>
+            <input type="number" id="calorie-weight" placeholder="Weight (kg)">
+            <input type="number" id="calorie-height" placeholder="Height (cm)">
+            <input type="number" id="calorie-age" placeholder="Age">
+            <select id="calorie-gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <button onclick="calculateCalories()">Calculate Calories</button>
+            <p id="calorie-result"></p>
+        </div>
+
+        <div id="mortgage-calculator" class="calculator">
+            <h2>Mortgage Calculator</h2>
+            <input type="number" id="mortgage-principal" placeholder="Principal ($)">
+            <input type="number" id="mortgage-rate" placeholder="Annual Interest Rate (%)">
+            <input type="number" id="mortgage-years" placeholder="Loan Term (years)">
+            <button onclick="calculateMortgage()">Calculate Mortgage</button>
+            <p id="mortgage-result"></p>
+        </div>
+
+        <div id="tip-calculator" class="calculator">
+            <h2>Tip Calculator</h2>
+            <input type="number" id="tip-amount" placeholder="Bill Amount ($)">
+            <input type="number" id="tip-percentage" placeholder="Tip Percentage (%)">
+            <button onclick="calculateTip()">Calculate Tip</button>
+            <p id="tip-result"></p>
+        </div>
+
+       <div id="date-calendar" class="calendar-container">
+        <h2>Date Calendar</h2>
+        <div>
+            <select id="year-select" onchange="updateCalendar()">
+                <!-- Year options will be generated here -->
+            </select>
+            <select id="month-select" onchange="updateCalendar()">
+                <!-- Month options will be generated here -->
+            </select>
+        </div>
+	 <div class="week-names">
+        <div class="day">Sun</div>
+        <div class="day">Mon</div>
+        <div class="day">Tue</div>
+        <div class="day">Wed</div>
+        <div class="day">Thu</div>
+        <div class="day">Fri</div>
+        <div class="day">Sat</div>
+    </div>
+        <div class="calendar">
+            <!-- Dates will be inserted here -->
+        </div>
+    </div>
+
+        <div id="age-calculator" class="calculator">
+            <h2>Age Calculator</h2>
+            <input type="date" id="birthdate">
+            <button onclick="calculateAge()">Calculate Age</button>
+            <p id="age-result"></p>
+        </div>
+
+        <div id="date-calculator" class="calculator">
+            <h2>Date Calculator</h2>
+            <input type="date" id="start-date">
+            <input type="number" id="days-to-add" placeholder="Days to Add">
+            <button onclick="calculateFutureDate()">Calculate Future Date</button>
+            <p id="future-date-result"></p>
+        </div>
+    </div>
+
+    <script>
+       function toggleCalculator(calculatorId) {
+        const calculators = document.querySelectorAll('.calculator, .calendar-container');
+        calculators.forEach(calculator => calculator.classList.remove('active'));
+
+        const selectedCalculator = document.getElementById(calculatorId);
+        if (selectedCalculator) {
+            selectedCalculator.classList.add('active');
+            document.querySelector('.animated-text').style.display = 'none'; // Hide animated text
+        }
+    }
+
+        function toggleCalendar(calendarId) {
+            const calendars = document.querySelectorAll('.calendar-container, .calculator');
+            calendars.forEach(calendar => calendar.classList.remove('active'));
+
+            const selectedCalendar = document.getElementById(calendarId);
+            if (selectedCalendar) {
+                selectedCalendar.classList.add('active');
+                document.querySelector('.animated-text').style.display = 'none'; // Hide animated text
+            }
+        }
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('bmi-weight').value);
+            const height = parseFloat(document.getElementById('bmi-height').value);
+            const bmi = weight / (height * height);
+            document.getElementById('bmi-result').textContent = 'Your BMI is ' + bmi.toFixed(2);
+        }
+
+        function calculateLoan() {
+            const principal = parseFloat(document.getElementById('loan-principal').value);
+            const annualRate = parseFloat(document.getElementById('loan-annual-rate').value) / 100;
+            const years = parseFloat(document.getElementById('loan-years').value);
+            const monthlyRate = annualRate / 12;
+            const numberOfPayments = years * 12;
+            const monthlyPayment = (principal * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -numberOfPayments));
+            document.getElementById('loan-result').textContent = 'Your monthly payment is $' + monthlyPayment.toFixed(2);
+        }
+
+        function calculateCompoundInterest() {
+            const principal = parseFloat(document.getElementById('ci-principal').value);
+            const rate = parseFloat(document.getElementById('ci-rate').value) / 100;
+            const years = parseFloat(document.getElementById('ci-years').value);
+            const frequency = parseFloat(document.getElementById('ci-frequency').value);
+            const amount = principal * Math.pow((1 + rate / frequency), frequency * years);
+            document.getElementById('ci-result').textContent = 'Future value is $' + amount.toFixed(2);
+        }
+
+        function calculateRetirement() {
+            const currentAge = parseFloat(document.getElementById('retirement-current-age').value);
+            const retirementAge = parseFloat(document.getElementById('retirement-retirement-age').value);
+            const currentSavings = parseFloat(document.getElementById('retirement-current-savings').value);
+            const annualContribution = parseFloat(document.getElementById('retirement-annual-contribution').value);
+            const rate = parseFloat(document.getElementById('retirement-rate').value) / 100;
+            const years = retirementAge - currentAge;
+            let futureSavings = currentSavings;
+            for (let i = 0; i < years; i++) {
+                futureSavings += annualContribution;
+                futureSavings *= (1 + rate);
+            }
+            document.getElementById('retirement-result').textContent = 'Your retirement savings will be $' + futureSavings.toFixed(2);
+        }
+
+        function calculateCalories() {
+            const weight = parseFloat(document.getElementById('calorie-weight').value);
+            const height = parseFloat(document.getElementById('calorie-height').value);
+            const age = parseFloat(document.getElementById('calorie-age').value);
+            const gender = document.getElementById('calorie-gender').value;
+            let bmr;
+            if (gender === 'male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+            document.getElementById('calorie-result').textContent = 'Your daily calorie requirement is ' + bmr.toFixed(2) + ' calories';
+        }
+
+        function calculateMortgage() {
+            const principal = parseFloat(document.getElementById('mortgage-principal').value);
+            const annualRate = parseFloat(document.getElementById('mortgage-rate').value) / 100;
+            const years = parseFloat(document.getElementById('mortgage-years').value);
+            const monthlyRate = annualRate / 12;
+            const numberOfPayments = years * 12;
+            const monthlyPayment = (principal * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -numberOfPayments));
+            document.getElementById('mortgage-result').textContent = 'Your monthly payment is $' + monthlyPayment.toFixed(2);
+        }
+
+        function calculateTip() {
+            const amount = parseFloat(document.getElementById('tip-amount').value);
+            const percentage = parseFloat(document.getElementById('tip-percentage').value) / 100;
+            const tip = amount * percentage;
+            document.getElementById('tip-result').textContent = 'Your tip amount is $' + tip.toFixed(2);
+        }
+	 function updateCalendar() {
+        const year = document.getElementById('year-select').value;
+        const month = document.getElementById('month-select').value;
+        const calendar = document.querySelector('.calendar');
+        calendar.innerHTML = ''; // Clear previous dates
+
+        const daysInMonth = new Date(year, month, 0).getDate();
+        const firstDay = new Date(year, month - 1, 1).getDay();
+        const today = new Date();
+
+        // Fill the calendar with dates
+        for (let i = 0; i < firstDay; i++) {
+            const emptyDate = document.createElement('div');
+            emptyDate.classList.add('date');
+            calendar.appendChild(emptyDate);
+        }
+
+        for (let i = 1; i <= daysInMonth; i++) {
+            const dateElement = document.createElement('div');
+            dateElement.classList.add('date');
+            dateElement.textContent = i;
+            calendar.appendChild(dateElement);
+
+            // Highlight today's date
+            if (today.getFullYear() === parseInt(year) && today.getMonth() + 1 === parseInt(month) && today.getDate() === i) {
+                dateElement.classList.add('today');
+            }
+        }
+    }
+
+    // Set the default month and year to the current month and year
+    function setDefaultMonthAndYear() {
+        const today = new Date();
+        const yearSelect = document.getElementById('year-select');
+        const monthSelect = document.getElementById('month-select');
+        yearSelect.value = today.getFullYear();
+        monthSelect.value = today.getMonth() + 1;
+    }
+
+    // Generate year options for the year dropdown
+    const yearSelect = document.getElementById('year-select');
+    const currentYear = new Date().getFullYear();
+    for (let year = currentYear - 10; year <= currentYear + 10; year++) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+    }
+
+    // Generate month options for the month dropdown
+    const monthSelect = document.getElementById('month-select');
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    for (let i = 0; i < months.length; i++) {
+        const option = document.createElement('option');
+        option.value = i + 1; // Month value is 1-based
+        option.textContent = months[i];
+        monthSelect.appendChild(option);
+    }
+
+    // Call setDefaultMonthAndYear to set default month and year to current month and year
+    setDefaultMonthAndYear();
+    // Call updateCalendar initially
+    updateCalendar();
+
+        function calculateAge() {
+            const birthdate = new Date(document.getElementById('birthdate').value);
+            const today = new Date();
+            let age = today.getFullYear() - birthdate.getFullYear();
+            const monthDiff = today.getMonth() - birthdate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
+                age--;
+            }
+            document.getElementById('age-result').textContent = 'Your age is ' + age + ' years';
+        }
+
+        function calculateFutureDate() {
+            const startDate = new Date(document.getElementById('start-date').value);
+            const daysToAdd = parseFloat(document.getElementById('days-to-add').value);
+            const futureDate = new Date(startDate);
+            futureDate.setDate(startDate.getDate() + daysToAdd);
+            document.getElementById('future-date-result').textContent = 'The future date is ' + futureDate.toDateString();
+        }
+	window.onload = function() {
+    const headerTitle = document.querySelector('.header h1');
+    headerTitle.classList.add('WELCOME TO CALCULATOR AND CALENDER WORLD! PLEASE SELECT THE CALCULATOR OR CALENDER FROM DROP DOWN');
+};
+
+    </script>
+</body>
+</html>
+
+
